@@ -1,7 +1,153 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PelangganAuthController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\StrukController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PesananAdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Menu;
+
+/*
+|--------------------------------------------------------------------------
+| Halaman utama pelanggan
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
-    return view('welcome');
+    $menus = Cache::remember('home_menu_terbaru', 60, function () {
+        return Menu::latest()->take(6)->get();
+    });
+
+    return view('home', compact('menus'));
+})->name('home');
+
+Route::get('/home', function () {
+    $menus = Cache::remember('home_menu_terbaru', 60, function () {
+        return Menu::latest()->take(6)->get();
+    });
+
+    return view('home', compact('menus'));
+})->name('home.page');
+
+/*
+|--------------------------------------------------------------------------
+| Menu untuk pelanggan
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/menu', [MenuController::class, 'index'])
+    ->name('menu.index');
+
+/*
+|--------------------------------------------------------------------------
+| Login pelanggan
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/login-pelanggan', [PelangganAuthController::class, 'showLogin'])
+    ->name('pelanggan.login');
+
+Route::post('/login-pelanggan', [PelangganAuthController::class, 'login'])
+    ->name('pelanggan.login.post');
+
+/*
+|--------------------------------------------------------------------------
+| Pesan pelanggan
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:pelanggan')->group(function () {
+    Route::get('/pesan', [PesananController::class, 'showForm'])
+        ->name('pelanggan.pesan');
+
+    Route::post('/pesan/cart/add', [PesananController::class, 'addToCart'])
+        ->name('pelanggan.cart.add');
+
+    Route::post('/pesan/proses', [PesananController::class, 'proses'])
+        ->name('pelanggan.pesanan.proses');
+
+    Route::post('/logout-pelanggan', [PelangganAuthController::class, 'logout'])
+        ->name('pelanggan.logout');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Struk
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/struk/{id}', [StrukController::class, 'show'])
+    ->name('struk.show');
+
+/*
+|--------------------------------------------------------------------------
+| Login Admin
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/login-admin', [\App\Http\Controllers\AdminAuthController::class, 'showLogin'])
+    ->name('admin.login');
+
+Route::post('/login-admin', [\App\Http\Controllers\AdminAuthController::class, 'login'])
+    ->name('admin.login.post');
+
+Route::post('/logout-admin', [\App\Http\Controllers\AdminAuthController::class, 'logout'])
+    ->name('admin.logout');
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard admin
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Admin: data menu, data pesanan, profile
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+
+    Route::get('/data-menu', function () {
+        $menus = Menu::latest()->get();
+        return view('data_menu', compact('menus'));
+    })->name('data.menu');
+
+    Route::get('/menu/tambah', [MenuController::class, 'create'])
+        ->name('menu.create');
+
+    Route::post('/menu', [MenuController::class, 'store'])
+        ->name('menu.store');
+
+    Route::get('/menu/{id}/edit', [MenuController::class, 'edit'])
+        ->name('menu.edit');
+
+    Route::put('/menu/{id}', [MenuController::class, 'update'])
+        ->name('menu.update');
+
+    Route::delete('/menu/{id}', [MenuController::class, 'destroy'])
+        ->name('menu.destroy');
+
+    Route::get('/data-pesanan', [PesananAdminController::class, 'dataPesanan'])
+        ->name('data.pesanan');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
