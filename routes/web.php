@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesananAdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Menu;
 
 /*
@@ -18,17 +19,17 @@ use App\Models\Menu;
 */
 
 Route::get('/', function () {
-    $menus = Cache::remember('home_menu_terbaru', 60, function () {
-        return Menu::latest()->take(6)->get();
-    });
+    $menus = Schema::hasTable('menus')
+        ? Cache::remember('home_menu_terbaru', 60, fn () => Menu::latest()->take(6)->get())
+        : collect();
 
     return view('home', compact('menus'));
 })->name('home');
 
 Route::get('/home', function () {
-    $menus = Cache::remember('home_menu_terbaru', 60, function () {
-        return Menu::latest()->take(6)->get();
-    });
+    $menus = Schema::hasTable('menus')
+        ? Cache::remember('home_menu_terbaru', 60, fn () => Menu::latest()->take(6)->get())
+        : collect();
 
     return view('home', compact('menus'));
 })->name('home.page');
