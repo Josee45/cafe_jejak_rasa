@@ -13,10 +13,12 @@ class PelangganSeeder extends Seeder
      */
     public function run(): void
     {
-        Pelanggan::create([
-            'name' => 'Admin Pelanggan',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
+        Pelanggan::updateOrCreate(
+            ['email' => 'pelanggan@gmail.com'],
+            [
+                'name' => 'Pelanggan Cafe',
+                'password' => Hash::make('12345678'),
+            ]
+        );
     }
 }

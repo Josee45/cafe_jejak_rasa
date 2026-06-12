@@ -34,7 +34,7 @@ class MenuController extends Controller
             'nama_menu' => 'required',
             'kategori' => 'required',
             'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10248',
         ]);
 
         $namaGambar = null;
@@ -68,7 +68,7 @@ class MenuController extends Controller
             'nama_menu' => 'required',
             'kategori' => 'required',
             'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10248',
         ]);
 
         $menu = Menu::findOrFail($id);
