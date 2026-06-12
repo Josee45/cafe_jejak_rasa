@@ -16,6 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
                 return route('pelanggan.login');
             }
 
+            if ($request->routeIs(
+                'dashboard',
+                'data.*',
+                'menu.create',
+                'menu.store',
+                'menu.edit',
+                'menu.update',
+                'menu.destroy',
+                'profile.*'
+            )) {
+                return route('admin.login');
+            }
+
             return route('login');
         });
     })
