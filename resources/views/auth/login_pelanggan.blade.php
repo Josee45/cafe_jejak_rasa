@@ -36,6 +36,11 @@
             </form>
 
             <div class="auth-switch">
+                <span>Belum punya akun?</span>
+                <a href="{{ route('pelanggan.register') }}">Daftar Pelanggan</a>
+            </div>
+
+            <div class="auth-switch compact">
                 <span>Masuk sebagai admin?</span>
                 <a href="{{ route('admin.login') }}">Login Admin</a>
             </div>

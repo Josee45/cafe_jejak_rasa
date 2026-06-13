@@ -13,6 +13,7 @@
 
                     <div class="actions">
                         <a href="{{ route('pelanggan.login') }}" class="btn">Mulai Pesan</a>
+                        <a href="{{ route('pelanggan.register') }}" class="btn secondary">Daftar Pelanggan</a>
                         <a href="{{ route('admin.login') }}" class="btn secondary">Login Admin</a>
                     </div>
                 </div>

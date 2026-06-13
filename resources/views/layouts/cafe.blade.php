@@ -735,6 +735,11 @@
             line-height: 1.5;
         }
 
+        .auth-switch.compact {
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
         .auth-switch a {
             color: var(--accent);
             font-weight: 900;

@@ -56,6 +56,12 @@ Route::get('/login-pelanggan', [PelangganAuthController::class, 'showLogin'])
 Route::post('/login-pelanggan', [PelangganAuthController::class, 'login'])
     ->name('pelanggan.login.post');
 
+Route::get('/daftar-pelanggan', [PelangganAuthController::class, 'showRegister'])
+    ->name('pelanggan.register');
+
+Route::post('/daftar-pelanggan', [PelangganAuthController::class, 'register'])
+    ->name('pelanggan.register.post');
+
 /*
 |--------------------------------------------------------------------------
 | Pesan pelanggan

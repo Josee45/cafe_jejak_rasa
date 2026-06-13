@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class PelangganAuthController extends Controller
 {
     public function showLogin()
     {
         return view('auth.login_pelanggan');
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register_pelanggan');
     }
 
     public function login(Request $request)
@@ -28,6 +33,23 @@ class PelangganAuthController extends Controller
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ])->onlyInput('email');
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:pelanggan,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $pelanggan = Pelanggan::create($data);
+
+        Auth::guard('pelanggan')->login($pelanggan);
+        $request->session()->regenerate();
+
+        return redirect()->route('pelanggan.pesan')
+            ->with('success', 'Akun berhasil dibuat. Selamat datang di Cafe Jejak Rasa.');
     }
 
     public function logout(Request $request)
