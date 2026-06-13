@@ -3,11 +3,17 @@
 @section('title', 'Login Pelanggan - Cafe Jejak Rasa')
 
 @section('content')
-    <main class="page">
-        <section class="panel auth-card">
+    <main class="auth-page auth-page-customer">
+        <section class="auth-intro">
             <p class="eyebrow">Pelanggan</p>
+            <h1>Masuk dan pilih menu favoritmu.</h1>
+            <p>Pesan coffee, non coffee, dan cemilan dengan alur yang lebih cepat dari meja kamu.</p>
+        </section>
+
+        <section class="panel auth-card">
+            <p class="eyebrow">Akun pelanggan</p>
             <h2>Login Pelanggan</h2>
-            <p class="muted" style="line-height:1.6;">Masuk untuk mulai membuat pesanan.</p>
+            <p class="muted" style="line-height:1.6;">Gunakan akun pelanggan untuk membuat pesanan dan melihat struk.</p>
 
             <div style="margin-top:20px;">
                 @include('partials.alerts')
@@ -28,6 +34,11 @@
 
                 <button type="submit" class="btn full">Login</button>
             </form>
+
+            <div class="auth-switch">
+                <span>Masuk sebagai admin?</span>
+                <a href="{{ route('admin.login') }}">Login Admin</a>
+            </div>
         </section>
     </main>
 @endsection

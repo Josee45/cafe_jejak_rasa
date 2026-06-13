@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Menu;
+use App\Models\Pelanggan;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,6 +144,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/data-pesanan', [PesananAdminController::class, 'dataPesanan'])
         ->name('data.pesanan');
+
+    Route::get('/data-pelanggan', function () {
+        $pelanggans = Pelanggan::withCount('pesanan')
+            ->withSum('pesanan as total_belanja', 'total_harga')
+            ->latest()
+            ->get();
+
+        return view('data_pelanggan', compact('pelanggans'));
+    })->name('data.pelanggan');
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');

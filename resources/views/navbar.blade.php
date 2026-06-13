@@ -12,6 +12,7 @@
 
                 @auth('web')
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ route('data.pelanggan') }}">Pelanggan</a>
                 @endauth
             </div>
 

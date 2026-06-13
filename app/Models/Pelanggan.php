@@ -30,4 +30,9 @@ class Pelanggan extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function pesanan()
+    {
+        return $this->hasMany(Pesanan::class, 'pelanggan_id');
+    }
 }

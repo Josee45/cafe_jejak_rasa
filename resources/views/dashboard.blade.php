@@ -29,6 +29,13 @@
                 </section>
 
                 <section class="panel">
+                    <p class="eyebrow">Pelanggan</p>
+                    <h3>Data Pelanggan</h3>
+                    <p class="muted" style="line-height:1.6;">Pantau akun pelanggan, jumlah pesanan, dan total belanja.</p>
+                    <a class="btn" href="{{ route('data.pelanggan') }}" style="margin-top:14px;">Buka Pelanggan</a>
+                </section>
+
+                <section class="panel">
                     <p class="eyebrow">Aksi cepat</p>
                     <h3>Tambah Menu</h3>
                     <p class="muted" style="line-height:1.6;">Masukkan menu baru beserta kategori, harga, dan gambar.</p>

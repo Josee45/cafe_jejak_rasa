@@ -189,6 +189,99 @@
             padding: 34px 0 56px;
         }
 
+        .splash-page {
+            min-height: calc(100vh - 72px);
+            display: grid;
+            align-items: center;
+            padding: 34px 0;
+        }
+
+        .splash-hero {
+            width: min(1160px, calc(100% - 32px));
+            min-height: 620px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+            align-items: center;
+            gap: 36px;
+            border: 1px solid rgba(232, 221, 208, .86);
+            border-radius: 8px;
+            padding: clamp(28px, 5vw, 58px);
+            background:
+                linear-gradient(135deg, rgba(255, 253, 249, .96), rgba(236, 249, 246, .9)),
+                linear-gradient(135deg, #fffdf9, #e0f2fe);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .splash-copy h1 {
+            max-width: 720px;
+            color: var(--text);
+            font-size: clamp(42px, 6vw, 76px);
+        }
+
+        .splash-copy p:not(.eyebrow) {
+            max-width: 620px;
+            margin: 20px 0 0;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.75;
+        }
+
+        .splash-copy .actions {
+            margin-top: 28px;
+        }
+
+        .splash-menu-preview {
+            align-self: stretch;
+            min-height: 440px;
+            display: grid;
+            align-content: end;
+            border-radius: 8px;
+            padding: 18px;
+            color: #fff;
+            background:
+                linear-gradient(180deg, rgba(20, 16, 12, .04), rgba(20, 16, 12, .78)),
+                #2a211b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .splash-menu-preview img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .splash-menu-preview div {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 8px;
+        }
+
+        .splash-menu-preview span {
+            color: #bae6fd;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .splash-menu-preview strong {
+            font-size: 28px;
+        }
+
+        .splash-menu-preview small {
+            max-width: 320px;
+            color: rgba(255, 255, 255, .84);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
         .hero {
             min-height: 430px;
             display: grid;
@@ -287,7 +380,7 @@
         }
 
         .stat-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
         }
 
         .menu-card,
@@ -437,12 +530,171 @@
             padding: 20px;
         }
 
+        .customer-stat-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-bottom: 18px;
+        }
+
+        .mini-stat {
+            display: grid;
+            gap: 8px;
+        }
+
+        .mini-stat span {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .mini-stat strong {
+            color: var(--brand-dark);
+            font-size: 24px;
+        }
+
+        .data-panel {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .data-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 18px;
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(135deg, #fffdf9, #eef7f5);
+        }
+
+        .data-toolbar h3 {
+            margin: 0;
+        }
+
+        .table-search {
+            width: min(320px, 100%);
+            margin: 0;
+        }
+
+        .table-search span {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .data-table tbody tr {
+            transition: background .18s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: #fff8ef;
+        }
+
+        .customer-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 190px;
+        }
+
+        .customer-cell span {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent), #2563eb);
+            font-weight: 900;
+        }
+
         .form-card,
         .auth-card,
         .receipt-card {
             width: min(560px, calc(100% - 32px));
             margin: 38px auto;
             padding: 24px;
+        }
+
+        .auth-page {
+            width: min(1120px, calc(100% - 32px));
+            min-height: calc(100vh - 72px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+            align-items: center;
+            gap: 34px;
+            padding: 42px 0 56px;
+        }
+
+        .auth-intro {
+            min-height: 520px;
+            display: grid;
+            align-content: end;
+            border-radius: 8px;
+            padding: clamp(28px, 4vw, 44px);
+            color: #fff;
+            background:
+                linear-gradient(180deg, rgba(26, 20, 15, .08), rgba(26, 20, 15, .78)),
+                url("{{ asset('images/menu/croissant.png') }}") center/cover;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-page-admin .auth-intro {
+            background:
+                linear-gradient(180deg, rgba(15, 23, 42, .18), rgba(15, 23, 42, .82)),
+                url("{{ asset('images/menu/americano.png') }}") center/cover;
+        }
+
+        .auth-intro .eyebrow {
+            color: #bae6fd;
+        }
+
+        .auth-intro h1 {
+            max-width: 560px;
+            color: #fff;
+            font-size: clamp(34px, 5vw, 58px);
+        }
+
+        .auth-intro p:not(.eyebrow) {
+            max-width: 520px;
+            margin: 18px 0 0;
+            color: rgba(255, 255, 255, .86);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .auth-page .auth-card {
+            width: 100%;
+            margin: 0;
+        }
+
+        .auth-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .auth-switch a {
+            color: var(--accent);
+            font-weight: 900;
+            text-decoration: none;
+            white-space: nowrap;
         }
 
         .receipt-card {
@@ -649,6 +901,25 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
+            .customer-stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .splash-hero,
+            .auth-page {
+                grid-template-columns: 1fr;
+            }
+
+            .splash-menu-preview,
+            .auth-intro {
+                min-height: 340px;
+            }
+
             .cart-layout {
                 grid-template-columns: 1fr;
             }
@@ -678,6 +949,32 @@
 
             .hero {
                 min-height: 390px;
+            }
+
+            .splash-page {
+                padding: 18px 0 34px;
+            }
+
+            .splash-hero {
+                min-height: auto;
+                padding: 24px;
+            }
+
+            .splash-menu-preview {
+                min-height: 280px;
+            }
+
+            .auth-page {
+                padding: 22px 0 42px;
+            }
+
+            .auth-intro {
+                min-height: 280px;
+            }
+
+            .auth-switch {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
             .section-head,
