@@ -25,8 +25,8 @@
                     <label for="kategori">Kategori</label>
                     <select id="kategori" name="kategori" required>
                         <option value="">Pilih kategori</option>
-                        @foreach(['Coffee', 'Non Coffee', 'Cemilan'] as $item)
-                            <option value="{{ $item }}" @selected(old('kategori') === $item)>{{ $item }}</option>
+                        @foreach($categoryOptions as $value => $label)
+                            <option value="{{ $value }}" @selected(old('kategori') === $value)>{{ $label }}</option>
                         @endforeach
                     </select>
                 </div>

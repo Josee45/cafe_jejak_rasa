@@ -25,6 +25,16 @@
                     <div class="muted">Status</div>
                     <span class="badge ok">{{ ucfirst($pesanan->status) }}</span>
                 </div>
+                <div class="meta-box">
+                    <div class="muted">Pembayaran</div>
+                    <span class="badge {{ $pesanan->status_pembayaran === 'lunas' ? 'ok' : 'warn' }}">
+                        {{ $pesanan->status_pembayaran === 'lunas' ? 'Lunas' : 'Belum Bayar' }}
+                    </span>
+                </div>
+                <div class="meta-box">
+                    <div class="muted">Metode</div>
+                    <strong>{{ $pesanan->metode_pembayaran ? strtoupper($pesanan->metode_pembayaran) : '-' }}</strong>
+                </div>
             </div>
 
             <div class="table-wrap" style="box-shadow:none;">
@@ -54,6 +64,63 @@
                 <span>Total</span>
                 <span>Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</span>
             </div>
+
+            @auth('pelanggan')
+                @if(auth('pelanggan')->id() === $pesanan->pelanggan_id)
+                    <section class="payment-box">
+                        @if($pesanan->status_pembayaran === 'lunas')
+                            <p class="eyebrow">Pembayaran</p>
+                            <h3>Pembayaran berhasil</h3>
+                            <p class="muted">
+                                Dibayar dengan {{ strtoupper($pesanan->metode_pembayaran) }}
+                                pada {{ $pesanan->dibayar_pada?->format('d M Y H:i') }}.
+                            </p>
+                        @else
+                            <p class="eyebrow">Pembayaran</p>
+                            <h3>Bayar pesanan kamu</h3>
+                            <p class="muted">Pilih metode pembayaran untuk menyelesaikan pesanan.</p>
+
+                            <form action="{{ route('struk.bayar', $pesanan->id) }}" method="POST" class="payment-form">
+                                @csrf
+
+                                <label class="payment-option">
+                                    <input type="radio" name="metode_pembayaran" value="tunai" required>
+                                    <span>
+                                        <strong>Tunai</strong>
+                                        <small>Bayar langsung di kasir.</small>
+                                    </span>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="metode_pembayaran" value="qris" required>
+                                    <span>
+                                        <strong>QRIS</strong>
+                                        <small>Simulasi pembayaran QR cafe.</small>
+                                    </span>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="metode_pembayaran" value="transfer" required>
+                                    <span>
+                                        <strong>Transfer</strong>
+                                        <small>Transfer ke rekening cafe.</small>
+                                    </span>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="metode_pembayaran" value="ewallet" required>
+                                    <span>
+                                        <strong>E-Wallet</strong>
+                                        <small>Bayar dengan dompet digital.</small>
+                                    </span>
+                                </label>
+
+                                <button class="btn full" type="submit">Bayar Sekarang</button>
+                            </form>
+                        @endif
+                    </section>
+                @endif
+            @endauth
 
             <div class="actions" style="margin-top:22px;">
                 <a class="btn" href="{{ route('struk.pdf', $pesanan->id) }}">Download PDF</a>

@@ -2,7 +2,7 @@
     <img class="menu-img" src="{{ $menu->image_url }}" alt="{{ $menu->nama_menu }}">
     <div class="menu-body">
         <div class="menu-top">
-            <span class="badge">{{ $menu->kategori ?? 'Menu Cafe' }}</span>
+            <span class="badge">{{ $menu->kategori_label }}</span>
         </div>
         <h3>{{ $menu->nama_menu }}</h3>
         <p class="price">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>

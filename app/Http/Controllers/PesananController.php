@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class PesananController extends Controller
 {
-    public function showForm()
+    public function showForm(Request $request)
     {
-        $menus = Menu::latest()->get();
+        $categoryOptions = Menu::categoryOptions(true);
+        $kategori = Menu::normalizeCategory($request->query('kategori', 'semua'));
+        $menus = $kategori === 'semua'
+            ? Menu::latest()->get()
+            : Menu::where('kategori', $kategori)->latest()->get();
+
         $cart = session()->get('cart', []);
         $cartItems = collect($cart)->map(function ($qty, $menuId) {
             $menu = Menu::find($menuId);
@@ -30,7 +35,7 @@ class PesananController extends Controller
 
         $cartTotal = $cartItems->sum('subtotal');
 
-        return view('pesan', compact('menus', 'cartItems', 'cartTotal'));
+        return view('pesan', compact('menus', 'cartItems', 'cartTotal', 'kategori', 'categoryOptions'));
     }
 
     public function addToCart(Request $request)

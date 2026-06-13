@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -17,6 +18,33 @@ class StrukController extends Controller
         // abort_unless($pesanan->pelanggan_id === $pelanggan->id, 403);
 
         return view('struk', compact('pesanan'));
+    }
+
+    public function bayar(Request $request, $id)
+    {
+        $pesanan = Pesanan::with(['pelanggan', 'items.menu'])->findOrFail($id);
+        $pelanggan = Auth::guard('pelanggan')->user();
+
+        abort_unless($pelanggan && $pesanan->pelanggan_id === $pelanggan->id, 403);
+
+        if ($pesanan->status_pembayaran === 'lunas') {
+            return redirect()->route('struk.show', $pesanan->id)
+                ->with('success', 'Pesanan ini sudah dibayar.');
+        }
+
+        $data = $request->validate([
+            'metode_pembayaran' => ['required', 'in:tunai,qris,transfer,ewallet'],
+        ]);
+
+        $pesanan->update([
+            'status_pembayaran' => 'lunas',
+            'metode_pembayaran' => $data['metode_pembayaran'],
+            'dibayar_pada' => now(),
+            'status' => 'diproses',
+        ]);
+
+        return redirect()->route('struk.show', $pesanan->id)
+            ->with('success', 'Pembayaran berhasil. Pesanan kamu sedang diproses.');
     }
 
     public function pdf($id)
@@ -57,15 +85,19 @@ class StrukController extends Controller
         $text(210, 685, 11, $pesanan->pelanggan->name ?? '-');
         $text(72, 665, 11, 'Status', true);
         $text(210, 665, 11, Str::title($pesanan->status));
+        $text(72, 645, 11, 'Pembayaran', true);
+        $text(210, 645, 11, $pesanan->status_pembayaran === 'lunas' ? 'Lunas' : 'Belum Bayar');
+        $text(72, 625, 11, 'Metode', true);
+        $text(210, 625, 11, $pesanan->metode_pembayaran ? strtoupper($pesanan->metode_pembayaran) : '-');
 
-        $line(72, 640, 523, 640);
-        $text(72, 620, 11, 'Menu', true);
-        $text(285, 620, 11, 'Qty', true);
-        $text(340, 620, 11, 'Harga', true);
-        $text(445, 620, 11, 'Subtotal', true);
-        $line(72, 608, 523, 608);
+        $line(72, 600, 523, 600);
+        $text(72, 580, 11, 'Menu', true);
+        $text(285, 580, 11, 'Qty', true);
+        $text(340, 580, 11, 'Harga', true);
+        $text(445, 580, 11, 'Subtotal', true);
+        $line(72, 568, 523, 568);
 
-        $y = 588;
+        $y = 548;
         foreach ($pesanan->items as $item) {
             if ($y < 120) {
                 $text(72, $y, 10, 'Item lainnya tidak ditampilkan karena halaman penuh.');

@@ -16,7 +16,7 @@
             @include('partials.alerts')
 
             <div class="filter-bar">
-                @foreach(['semua' => 'Semua', 'Coffee' => 'Coffee', 'Non Coffee' => 'Non Coffee', 'Cemilan' => 'Cemilan'] as $value => $label)
+                @foreach($categoryOptions as $value => $label)
                     <a
                         href="{{ route('menu.index', ['kategori' => $value]) }}"
                         class="filter-pill {{ ($kategori ?? 'semua') === $value || (!$kategori && $value === 'semua') ? 'active' : '' }}"

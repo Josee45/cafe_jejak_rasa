@@ -34,7 +34,7 @@
                                     <img class="thumb" src="{{ $menu->image_url }}" alt="{{ $menu->nama_menu }}">
                                 </td>
                                 <td><strong>{{ $menu->nama_menu }}</strong></td>
-                                <td><span class="badge">{{ $menu->kategori }}</span></td>
+                                <td><span class="badge">{{ $menu->kategori_label }}</span></td>
                                 <td>Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                 <td>
                                     <div class="actions">

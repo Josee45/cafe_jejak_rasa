@@ -7,7 +7,7 @@
         <section class="auth-intro">
             <p class="eyebrow">Pelanggan</p>
             <h1>Masuk dan pilih menu favoritmu.</h1>
-            <p>Pesan coffee, non coffee, dan cemilan dengan alur yang lebih cepat dari meja kamu.</p>
+            <p>Pesan coffee, non-coffee, dan snack dengan alur yang lebih cepat dari meja kamu.</p>
         </section>
 
         <section class="panel auth-card">

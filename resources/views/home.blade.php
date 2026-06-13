@@ -9,7 +9,7 @@
                 <div class="splash-copy">
                     <p class="eyebrow">Cafe Jejak Rasa</p>
                     <h1>Pesan menu favorit dari meja kamu.</h1>
-                    <p>Mulai dari coffee, non coffee, sampai cemilan hangat. Masuk sebagai pelanggan untuk memilih menu dan mendapatkan struk pesanan.</p>
+                    <p>Mulai dari coffee, non-coffee, sampai snack hangat. Masuk sebagai pelanggan untuk memilih menu dan mendapatkan struk pesanan.</p>
 
                     <div class="actions">
                         <a href="{{ route('pelanggan.login') }}" class="btn">Mulai Pesan</a>
@@ -49,7 +49,7 @@
                             <img src="{{ asset('images/menu/burger.png') }}" alt="Burger">
                             <div>
                                 <strong>Burger</strong>
-                                <small>Cemilan favorit</small>
+                                <small>Snack favorit</small>
                             </div>
                         </article>
                     </div>
@@ -59,7 +59,7 @@
     @else
         <section class="hero">
             <div class="hero-content">
-                <p class="eyebrow">Coffee, non coffee, dan cemilan</p>
+                <p class="eyebrow">Coffee, Non-Coffee, dan Snack</p>
                 <h1>Cafe Jejak Rasa</h1>
                 @auth('pelanggan')
                     <p class="customer-note">Selamat datang, {{ auth('pelanggan')->user()->name }}.</p>

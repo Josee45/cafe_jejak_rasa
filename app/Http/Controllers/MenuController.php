@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rule;
 
 class MenuController extends Controller
 {
     public function index(Request $request)
     {
-        $kategori = $request->kategori;
+        $categoryOptions = Menu::categoryOptions(true);
+        $kategori = Menu::normalizeCategory($request->query('kategori', 'semua'));
 
         if (! Schema::hasTable('menus')) {
             $menus = collect();
@@ -20,19 +22,21 @@ class MenuController extends Controller
             $menus = Menu::latest()->get();
         }
 
-        return view('menu.index', compact('menus', 'kategori'));
+        return view('menu.index', compact('menus', 'kategori', 'categoryOptions'));
     }
 
     public function create()
     {
-        return view('menu.tambah');
+        $categoryOptions = Menu::categoryOptions();
+
+        return view('menu.tambah', compact('categoryOptions'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'nama_menu' => 'required',
-            'kategori' => 'required',
+            'kategori' => ['required', Rule::in(array_keys(Menu::categoryOptions()))],
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10248',
         ]);
@@ -58,15 +62,16 @@ class MenuController extends Controller
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
+        $categoryOptions = Menu::categoryOptions();
 
-        return view('menu.edit', compact('menu'));
+        return view('menu.edit', compact('menu', 'categoryOptions'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_menu' => 'required',
-            'kategori' => 'required',
+            'kategori' => ['required', Rule::in(array_keys(Menu::categoryOptions()))],
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10248',
         ]);

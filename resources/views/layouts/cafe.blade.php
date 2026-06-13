@@ -481,6 +481,11 @@
             background: #dcfce7;
         }
 
+        .badge.warn {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
         .price {
             margin: 10px 0 0;
             color: var(--brand);
@@ -923,6 +928,59 @@
             font-weight: 800;
         }
 
+        .payment-box {
+            margin-top: 22px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 18px;
+            background: #fffaf3;
+        }
+
+        .payment-box h3 {
+            margin-bottom: 8px;
+        }
+
+        .payment-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .payment-form .btn {
+            grid-column: 1 / -1;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            min-height: 88px;
+            margin: 0;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 13px;
+            background: var(--surface);
+            cursor: pointer;
+        }
+
+        .payment-option input {
+            width: auto;
+            min-height: auto;
+            margin-top: 3px;
+        }
+
+        .payment-option span {
+            display: grid;
+            gap: 4px;
+        }
+
+        .payment-option small {
+            color: var(--muted);
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
         @media (max-width: 980px) {
             .nav-inner {
                 align-items: flex-start;
@@ -1062,6 +1120,10 @@
             .menu-grid,
             .stat-grid,
             .receipt-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-form {
                 grid-template-columns: 1fr;
             }
 

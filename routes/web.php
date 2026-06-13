@@ -78,6 +78,9 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::post('/pesan/proses', [PesananController::class, 'proses'])
         ->name('pelanggan.pesanan.proses');
 
+    Route::post('/struk/{id}/bayar', [StrukController::class, 'bayar'])
+        ->name('struk.bayar');
+
     Route::post('/logout-pelanggan', [PelangganAuthController::class, 'logout'])
         ->name('pelanggan.logout');
 });

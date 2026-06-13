@@ -15,6 +15,17 @@
 
             @include('partials.alerts')
 
+            <div class="filter-bar">
+                @foreach($categoryOptions as $value => $label)
+                    <a
+                        href="{{ route('pelanggan.pesan', ['kategori' => $value]) }}"
+                        class="filter-pill {{ ($kategori ?? 'semua') === $value || (!$kategori && $value === 'semua') ? 'active' : '' }}"
+                    >
+                        {{ $label }}
+                    </a>
+                @endforeach
+            </div>
+
             <div class="cart-layout">
                 <div class="grid menu-grid">
                     @forelse($menus as $menu)

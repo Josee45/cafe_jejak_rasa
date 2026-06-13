@@ -14,8 +14,18 @@ class Pesanan extends Model
     protected $fillable = [
         'pelanggan_id',
         'status',
+        'status_pembayaran',
+        'metode_pembayaran',
+        'dibayar_pada',
         'total_harga',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'dibayar_pada' => 'datetime',
+        ];
+    }
 
     public function pelanggan()
     {
