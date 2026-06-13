@@ -21,7 +21,7 @@
             </div>
 
             <div class="nav-actions">
-                @auth('pelanggan')
+                @if(auth('pelanggan')->check())
                     <span class="account-pill">
                         <span>Pelanggan</span>
                         <strong>{{ auth('pelanggan')->user()->name }}</strong>
@@ -31,20 +31,18 @@
                         @csrf
                         <button type="submit" class="nav-button">Logout</button>
                     </form>
-                @else
-                    <a class="nav-link" href="{{ route('pelanggan.login') }}">Login Pelanggan</a>
-                @endauth
-
-                @auth('web')
+                @elseif(auth('web')->check())
+                    <span class="account-pill">
+                        <span>Admin</span>
+                        <strong>{{ auth('web')->user()->name }}</strong>
+                    </span>
                     <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="nav-button">Logout Admin</button>
+                        <button type="submit" class="nav-button">Logout</button>
                     </form>
                 @else
-                    @guest('pelanggan')
-                        <a class="nav-link" href="{{ route('admin.login') }}">Login Admin</a>
-                    @endguest
-                @endauth
+                    <a class="nav-link nav-cta" href="{{ route('pelanggan.login') }}">Login</a>
+                @endif
             </div>
         </div>
     </nav>

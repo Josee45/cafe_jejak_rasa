@@ -9,24 +9,12 @@ class AdminAuthController extends Controller
 {
     public function showLogin()
     {
-        return view('auth.login_admin');
+        return redirect()->route('pelanggan.login');
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ]);
-
-        if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        return app(PelangganAuthController::class)->login($request);
     }
 
     public function logout(Request $request)

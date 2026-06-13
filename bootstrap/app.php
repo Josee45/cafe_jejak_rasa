@@ -26,10 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 'menu.destroy',
                 'profile.*'
             )) {
-                return route('admin.login');
+                return route('pelanggan.login');
             }
 
-            return route('login');
+            return route('pelanggan.login');
         });
     })
     ->withExceptions(function (Exceptions $exceptions): void {

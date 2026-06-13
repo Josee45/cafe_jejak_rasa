@@ -10,6 +10,14 @@ class PelangganAuthController extends Controller
 {
     public function showLogin()
     {
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('dashboard');
+        }
+
+        if (Auth::guard('pelanggan')->check()) {
+            return redirect()->route('pelanggan.pesan');
+        }
+
         return view('auth.login_pelanggan');
     }
 
@@ -25,9 +33,19 @@ class PelangganAuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if (Auth::guard('pelanggan')->attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
+            Auth::guard('pelanggan')->logout();
             $request->session()->regenerate();
-            return redirect()->intended(route('pelanggan.pesan'));
+
+            return redirect()->intended(route('dashboard'));
+        }
+
+        if (Auth::guard('pelanggan')->attempt($credentials, $request->boolean('remember'))) {
+            Auth::guard('web')->logout();
+            $request->session()->forget('url.intended');
+            $request->session()->regenerate();
+
+            return redirect()->route('pelanggan.pesan');
         }
 
         return back()->withErrors([

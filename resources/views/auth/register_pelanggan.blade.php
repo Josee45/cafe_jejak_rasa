@@ -47,7 +47,7 @@
 
             <div class="auth-switch">
                 <span>Sudah punya akun?</span>
-                <a href="{{ route('pelanggan.login') }}">Login Pelanggan</a>
+                <a href="{{ route('pelanggan.login') }}">Login</a>
             </div>
         </section>
     </main>

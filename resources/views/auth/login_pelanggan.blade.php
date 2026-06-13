@@ -1,19 +1,19 @@
 @extends('layouts.cafe')
 
-@section('title', 'Login Pelanggan - Cafe Jejak Rasa')
+@section('title', 'Login - Cafe Jejak Rasa')
 
 @section('content')
     <main class="auth-page auth-page-customer">
         <section class="auth-intro">
-            <p class="eyebrow">Pelanggan</p>
-            <h1>Masuk dan pilih menu favoritmu.</h1>
-            <p>Pesan coffee, non-coffee, dan snack dengan alur yang lebih cepat dari meja kamu.</p>
+            <p class="eyebrow">Cafe Jejak Rasa</p>
+            <h1>Masuk dan mulai aktivitasmu.</h1>
+            <p>Gunakan email dan password akun kamu untuk melanjutkan ke halaman yang sesuai.</p>
         </section>
 
         <section class="panel auth-card">
-            <p class="eyebrow">Akun pelanggan</p>
-            <h2>Login Pelanggan</h2>
-            <p class="muted" style="line-height:1.6;">Gunakan akun pelanggan untuk membuat pesanan dan melihat struk.</p>
+            <p class="eyebrow">Akun</p>
+            <h2>Login</h2>
+            <p class="muted" style="line-height:1.6;">Masukkan email dan password untuk masuk ke Cafe Jejak Rasa.</p>
 
             <div style="margin-top:20px;">
                 @include('partials.alerts')
@@ -38,11 +38,6 @@
             <div class="auth-switch">
                 <span>Belum punya akun?</span>
                 <a href="{{ route('pelanggan.register') }}">Daftar Pelanggan</a>
-            </div>
-
-            <div class="auth-switch compact">
-                <span>Masuk sebagai admin?</span>
-                <a href="{{ route('admin.login') }}">Login Admin</a>
             </div>
         </section>
     </main>

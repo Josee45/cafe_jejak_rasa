@@ -1,25 +1,25 @@
 @extends('layouts.cafe')
 
-@section('title', 'Login Admin - Cafe Jejak Rasa')
+@section('title', 'Login - Cafe Jejak Rasa')
 
 @section('content')
-    <main class="auth-page auth-page-admin">
+    <main class="auth-page auth-page-customer">
         <section class="auth-intro">
-            <p class="eyebrow">Admin area</p>
-            <h1>Kelola cafe dari satu dashboard.</h1>
-            <p>Masuk untuk mengatur menu, melihat pesanan, dan memantau data pelanggan dengan lebih rapi.</p>
+            <p class="eyebrow">Cafe Jejak Rasa</p>
+            <h1>Masuk dan mulai aktivitasmu.</h1>
+            <p>Gunakan email dan password akun kamu untuk melanjutkan ke halaman yang sesuai.</p>
         </section>
 
         <section class="panel auth-card">
-            <p class="eyebrow">Akun admin</p>
-            <h2>Login Admin</h2>
-            <p class="muted" style="line-height:1.6;">Masuk untuk mengelola menu dan pesanan.</p>
+            <p class="eyebrow">Akun</p>
+            <h2>Login</h2>
+            <p class="muted" style="line-height:1.6;">Masukkan email dan password untuk masuk ke Cafe Jejak Rasa.</p>
 
             <div style="margin-top:20px;">
                 @include('partials.alerts')
             </div>
 
-            <form method="POST" action="{{ route('admin.login.post') }}">
+            <form method="POST" action="{{ route('pelanggan.login.post') }}">
                 @csrf
 
                 <div class="field">
@@ -34,11 +34,6 @@
 
                 <button type="submit" class="btn full">Login</button>
             </form>
-
-            <div class="auth-switch">
-                <span>Ingin pesan sebagai pelanggan?</span>
-                <a href="{{ route('pelanggan.login') }}">Login Pelanggan</a>
-            </div>
         </section>
     </main>
 @endsection

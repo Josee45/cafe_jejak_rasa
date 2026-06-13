@@ -99,14 +99,14 @@ Route::get('/struk/{id}/pdf', [StrukController::class, 'pdf'])
 
 /*
 |--------------------------------------------------------------------------
-| Login Admin
+| Login utama dan kompatibilitas admin
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login-admin', [\App\Http\Controllers\AdminAuthController::class, 'showLogin'])
+Route::get('/login-admin', fn () => redirect()->route('pelanggan.login'))
     ->name('admin.login');
 
-Route::post('/login-admin', [\App\Http\Controllers\AdminAuthController::class, 'login'])
+Route::post('/login-admin', [PelangganAuthController::class, 'login'])
     ->name('admin.login.post');
 
 Route::post('/logout-admin', [\App\Http\Controllers\AdminAuthController::class, 'logout'])

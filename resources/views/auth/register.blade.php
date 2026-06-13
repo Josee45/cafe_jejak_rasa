@@ -2,7 +2,7 @@
     <!-- Pelanggan registration is not enabled. -->
     <div style="text-align:center; padding:24px; color:#721c24; background:#f8d7da; border-radius:12px; margin:24px auto; max-width:520px;">
         Registrasi pelanggan saat ini tidak tersedia.
-        <div style="margin-top:12px;"><a href="{{ route('pelanggan.login') }}" style="color:#6b432c; text-decoration:none; font-weight:bold;">Kembali ke Login Pelanggan</a></div>
+        <div style="margin-top:12px;"><a href="{{ route('pelanggan.login') }}" style="color:#6b432c; text-decoration:none; font-weight:bold;">Kembali ke Login</a></div>
     </div>
 
     {{-- Registration disabled; remove form submit to avoid calling /register. --}}

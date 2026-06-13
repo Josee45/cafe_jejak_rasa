@@ -14,7 +14,6 @@
                     <div class="actions">
                         <a href="{{ route('pelanggan.login') }}" class="btn">Mulai Pesan</a>
                         <a href="{{ route('pelanggan.register') }}" class="btn secondary">Daftar Pelanggan</a>
-                        <a href="{{ route('admin.login') }}" class="btn secondary">Login Admin</a>
                     </div>
                 </div>
 
@@ -61,20 +60,26 @@
             <div class="hero-content">
                 <p class="eyebrow">Coffee, Non-Coffee, dan Snack</p>
                 <h1>Cafe Jejak Rasa</h1>
-                @auth('pelanggan')
+                @if(auth('pelanggan')->check())
                     <p class="customer-note">Selamat datang, {{ auth('pelanggan')->user()->name }}.</p>
                     <p class="lead">Pilih menu favoritmu, tambahkan ke keranjang, lalu proses pesanan dengan cepat.</p>
+                @elseif(auth('web')->check())
+                    <p class="customer-note">Mode admin aktif.</p>
+                    <p class="lead">Kelola menu, pesanan, dan data pelanggan dari dashboard cafe.</p>
                 @else
                     <p class="lead">Tempat singgah untuk menu hangat, minuman segar, dan camilan yang siap menemani waktu santai.</p>
-                @endauth
+                @endif
                 <div class="actions" style="margin-top:26px;">
-                    @auth('pelanggan')
+                    @if(auth('pelanggan')->check())
                         <a href="{{ route('pelanggan.pesan') }}" class="btn">Pesan Sekarang</a>
                         <a href="{{ route('menu.index') }}" class="btn light">Lihat Menu</a>
+                    @elseif(auth('web')->check())
+                        <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+                        <a href="{{ route('data.menu') }}" class="btn light">Data Menu</a>
                     @else
                         <a href="{{ route('menu.index') }}" class="btn">Lihat Menu</a>
-                        <a href="{{ route('pelanggan.login') }}" class="btn secondary">Login Pelanggan</a>
-                    @endauth
+                        <a href="{{ route('pelanggan.login') }}" class="btn secondary">Login</a>
+                    @endif
                 </div>
             </div>
         </section>
