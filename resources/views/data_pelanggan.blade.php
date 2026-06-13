@@ -17,17 +17,23 @@
             <div class="grid customer-stat-grid">
                 <section class="panel mini-stat">
                     <span>Total Pelanggan</span>
-                    <strong>{{ $pelanggans->count() }}</strong>
+                    <strong>{{ $totalPelanggan }}</strong>
                 </section>
                 <section class="panel mini-stat">
                     <span>Total Pesanan</span>
-                    <strong>{{ $pelanggans->sum('pesanan_count') }}</strong>
+                    <strong>{{ $totalPesanan }}</strong>
                 </section>
                 <section class="panel mini-stat">
                     <span>Total Belanja</span>
-                    <strong>Rp {{ number_format($pelanggans->sum('total_belanja'), 0, ',', '.') }}</strong>
+                    <strong>Rp {{ number_format($totalBelanja, 0, ',', '.') }}</strong>
                 </section>
             </div>
+
+            <form method="GET" action="{{ route('data.pelanggan') }}" class="filter-form">
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari nama atau email pelanggan">
+                <button class="btn" type="submit">Filter</button>
+                <a class="btn secondary" href="{{ route('data.pelanggan') }}">Reset</a>
+            </form>
 
             <section class="data-panel">
                 <div class="data-toolbar">
@@ -35,10 +41,6 @@
                         <p class="eyebrow">Tabel pelanggan</p>
                         <h3>Pengguna Pelanggan</h3>
                     </div>
-                    <label class="table-search">
-                        <span>Cari pelanggan</span>
-                        <input id="pelangganSearch" type="search" placeholder="Nama atau email">
-                    </label>
                 </div>
 
                 <div class="table-wrap">
@@ -56,7 +58,7 @@
                         <tbody>
                             @forelse($pelanggans as $pelanggan)
                                 <tr>
-                                    <td><strong>{{ $loop->iteration }}</strong></td>
+                                    <td><strong>{{ $pelanggans->firstItem() + $loop->index }}</strong></td>
                                     <td>
                                         <div class="customer-cell">
                                             <span>{{ strtoupper(substr($pelanggan->name, 0, 1)) }}</span>
@@ -81,19 +83,14 @@
                     </table>
                 </div>
             </section>
+
+            @if($pelanggans->hasPages())
+                <div class="simple-pagination">
+                    <a class="btn secondary compact {{ $pelanggans->onFirstPage() ? 'disabled' : '' }}" @if(! $pelanggans->onFirstPage()) href="{{ $pelanggans->previousPageUrl() }}" @endif>Sebelumnya</a>
+                    <span>Halaman {{ $pelanggans->currentPage() }} dari {{ $pelanggans->lastPage() }}</span>
+                    <a class="btn secondary compact {{ $pelanggans->hasMorePages() ? '' : 'disabled' }}" @if($pelanggans->hasMorePages()) href="{{ $pelanggans->nextPageUrl() }}" @endif>Berikutnya</a>
+                </div>
+            @endif
         </div>
     </main>
-
-    <script>
-        const pelangganSearch = document.getElementById('pelangganSearch');
-        const pelangganRows = Array.from(document.querySelectorAll('#pelangganTable tbody tr'));
-
-        pelangganSearch?.addEventListener('input', function () {
-            const keyword = this.value.trim().toLowerCase();
-
-            pelangganRows.forEach((row) => {
-                row.hidden = keyword !== '' && !row.textContent.toLowerCase().includes(keyword);
-            });
-        });
-    </script>
 @endsection

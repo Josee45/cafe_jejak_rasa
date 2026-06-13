@@ -37,6 +37,19 @@
                 </div>
 
                 <div class="field">
+                    <label for="stok">Stok</label>
+                    <input id="stok" type="number" name="stok" value="{{ old('stok') }}" min="0" placeholder="Kosongkan jika stok tidak dibatasi">
+                </div>
+
+                <div class="field checkbox-field">
+                    <input type="hidden" name="tersedia" value="0">
+                    <label>
+                        <input type="checkbox" name="tersedia" value="1" @checked(old('tersedia', '1') === '1')>
+                        Tersedia untuk dipesan
+                    </label>
+                </div>
+
+                <div class="field">
                     <label for="gambar">Gambar</label>
                     <input id="gambar" type="file" name="gambar" accept="image/png,image/jpeg">
                 </div>

@@ -11,11 +11,13 @@
 
                 @auth('pelanggan')
                     <a class="nav-link" href="{{ route('menu.index') }}">Menu</a>
+                    <a class="nav-link" href="{{ route('pelanggan.pesanan.riwayat') }}">Pesanan Saya</a>
                 @endauth
 
                 @auth('web')
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                     <a class="nav-link" href="{{ route('data.menu') }}">Data Menu</a>
+                    <a class="nav-link" href="{{ route('data.pesanan') }}">Pesanan</a>
                     <a class="nav-link" href="{{ route('data.pelanggan') }}">Pelanggan</a>
                 @endauth
             </div>

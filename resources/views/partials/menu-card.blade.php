@@ -3,19 +3,24 @@
     <div class="menu-body">
         <div class="menu-top">
             <span class="badge">{{ $menu->kategori_label }}</span>
+            <span class="badge {{ $menu->availability_badge_class }}">{{ $menu->availability_label }}</span>
         </div>
         <h3>{{ $menu->nama_menu }}</h3>
         <p class="price">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
 
         @if(! empty($orderable))
-            <form action="{{ route('pelanggan.cart.add') }}" method="POST">
-                @csrf
-                <input type="hidden" name="menu_id" value="{{ $menu->id }}">
-                <div class="qty-row">
-                    <input type="number" name="qty" value="1" min="1" required aria-label="Jumlah {{ $menu->nama_menu }}">
-                    <button class="btn" type="submit">Tambah</button>
-                </div>
-            </form>
+            @if($menu->isAvailableForOrder())
+                <form action="{{ route('pelanggan.cart.add') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+                    <div class="qty-row">
+                        <input type="number" name="qty" value="1" min="1" @if($menu->stok !== null) max="{{ $menu->stok }}" @endif required aria-label="Jumlah {{ $menu->nama_menu }}">
+                        <button class="btn" type="submit">Tambah</button>
+                    </div>
+                </form>
+            @else
+                <button class="btn full" type="button" disabled>Habis</button>
+            @endif
         @endif
 
         @if(! empty($manageable))

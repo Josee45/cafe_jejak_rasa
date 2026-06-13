@@ -17,7 +17,18 @@ class Menu extends Model
         'kategori',
         'harga',
         'gambar',
+        'tersedia',
+        'stok',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'harga' => 'integer',
+            'tersedia' => 'boolean',
+            'stok' => 'integer',
+        ];
+    }
 
     public static function categoryOptions(bool $includeAll = false): array
     {
@@ -49,6 +60,33 @@ class Menu extends Model
     public function getKategoriLabelAttribute(): string
     {
         return self::CATEGORY_OPTIONS[$this->kategori] ?? ($this->kategori ?: 'Menu Cafe');
+    }
+
+    public function isAvailableForOrder(int $qty = 1): bool
+    {
+        $isMarkedAvailable = array_key_exists('tersedia', $this->attributes)
+            ? (bool) $this->attributes['tersedia']
+            : true;
+
+        if (! $isMarkedAvailable) {
+            return false;
+        }
+
+        return $this->stok === null || $this->stok >= $qty;
+    }
+
+    public function getAvailabilityLabelAttribute(): string
+    {
+        if (! $this->isAvailableForOrder()) {
+            return 'Habis';
+        }
+
+        return $this->stok === null ? 'Tersedia' : 'Stok ' . $this->stok;
+    }
+
+    public function getAvailabilityBadgeClassAttribute(): string
+    {
+        return $this->isAvailableForOrder() ? 'ok' : 'warn';
     }
 
     public function getImageUrlAttribute(): string

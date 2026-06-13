@@ -10,8 +10,10 @@ use App\Http\Controllers\PesananAdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Pelanggan;
+use App\Models\Pesanan;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,8 +74,20 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::get('/pesan', [PesananController::class, 'showForm'])
         ->name('pelanggan.pesan');
 
+    Route::get('/pesanan-saya', [PesananController::class, 'riwayat'])
+        ->name('pelanggan.pesanan.riwayat');
+
     Route::post('/pesan/cart/add', [PesananController::class, 'addToCart'])
         ->name('pelanggan.cart.add');
+
+    Route::patch('/pesan/cart/{menu}', [PesananController::class, 'updateCart'])
+        ->name('pelanggan.cart.update');
+
+    Route::delete('/pesan/cart/{menu}', [PesananController::class, 'removeFromCart'])
+        ->name('pelanggan.cart.remove');
+
+    Route::delete('/pesan/cart', [PesananController::class, 'clearCart'])
+        ->name('pelanggan.cart.clear');
 
     Route::post('/pesan/proses', [PesananController::class, 'proses'])
         ->name('pelanggan.pesanan.proses');
@@ -131,9 +145,28 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware(['auth', 'verified'])->group(function () {
 
 
-    Route::get('/data-menu', function () {
-        $menus = Menu::latest()->get();
-        return view('data_menu', compact('menus'));
+    Route::get('/data-menu', function (Request $request) {
+        $categoryOptions = Menu::categoryOptions();
+        $menus = Menu::query()
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $keyword = '%' . $request->q . '%';
+
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('nama_menu', 'like', $keyword)
+                        ->orWhere('kategori', 'like', $keyword);
+                });
+            })
+            ->when($request->filled('kategori') && array_key_exists($request->kategori, $categoryOptions), function ($query) use ($request) {
+                $query->where('kategori', $request->kategori);
+            })
+            ->when($request->filled('tersedia'), function ($query) use ($request) {
+                $query->where('tersedia', $request->tersedia === '1');
+            })
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('data_menu', compact('menus', 'categoryOptions'));
     })->name('data.menu');
 
     Route::get('/menu/tambah', [MenuController::class, 'create'])
@@ -154,13 +187,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/data-pesanan', [PesananAdminController::class, 'dataPesanan'])
         ->name('data.pesanan');
 
-    Route::get('/data-pelanggan', function () {
+    Route::patch('/data-pesanan/{pesanan}/status', [PesananAdminController::class, 'updateStatus'])
+        ->name('data.pesanan.status');
+
+    Route::patch('/data-pesanan/{pesanan}/pembayaran', [PesananAdminController::class, 'updatePayment'])
+        ->name('data.pesanan.pembayaran');
+
+    Route::get('/data-pelanggan', function (Request $request) {
+        $totalPelanggan = Pelanggan::count();
+        $totalPesanan = Pesanan::count();
+        $totalBelanja = Pesanan::sum('total_harga');
+
         $pelanggans = Pelanggan::withCount('pesanan')
             ->withSum('pesanan as total_belanja', 'total_harga')
-            ->latest()
-            ->get();
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $keyword = '%' . $request->q . '%';
 
-        return view('data_pelanggan', compact('pelanggans'));
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('name', 'like', $keyword)
+                        ->orWhere('email', 'like', $keyword);
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('data_pelanggan', compact('pelanggans', 'totalPelanggan', 'totalPesanan', 'totalBelanja'));
     })->name('data.pelanggan');
 
     Route::get('/profile', [ProfileController::class, 'edit'])

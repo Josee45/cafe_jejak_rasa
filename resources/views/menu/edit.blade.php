@@ -37,6 +37,19 @@
                 </div>
 
                 <div class="field">
+                    <label for="stok">Stok</label>
+                    <input id="stok" type="number" name="stok" value="{{ old('stok', $menu->stok) }}" min="0" placeholder="Kosongkan jika stok tidak dibatasi">
+                </div>
+
+                <div class="field checkbox-field">
+                    <input type="hidden" name="tersedia" value="0">
+                    <label>
+                        <input type="checkbox" name="tersedia" value="1" @checked(old('tersedia', ($menu->tersedia ?? true) ? '1' : '0') === '1')>
+                        Tersedia untuk dipesan
+                    </label>
+                </div>
+
+                <div class="field">
                     <label>Gambar Saat Ini</label>
                     @if($menu->gambar)
                         <img class="thumb" style="width:130px; height:96px;" src="{{ $menu->image_url }}" alt="{{ $menu->nama_menu }}">

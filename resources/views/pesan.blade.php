@@ -48,8 +48,21 @@
                                     <div>
                                         <strong>{{ $item['menu']->nama_menu }}</strong>
                                         <div class="muted">{{ $item['qty'] }} x Rp {{ number_format($item['menu']->harga, 0, ',', '.') }}</div>
+                                        <form action="{{ route('pelanggan.cart.update', $item['menu']->id) }}" method="POST" class="cart-update-form">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="number" name="qty" value="{{ $item['qty'] }}" min="0" @if($item['menu']->stok !== null) max="{{ $item['menu']->stok }}" @endif aria-label="Ubah jumlah {{ $item['menu']->nama_menu }}">
+                                            <button class="btn secondary compact" type="submit">Update</button>
+                                        </form>
                                     </div>
-                                    <strong>Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</strong>
+                                    <div class="cart-price-actions">
+                                        <strong>Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</strong>
+                                        <form action="{{ route('pelanggan.cart.remove', $item['menu']->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn danger compact" type="submit">Hapus</button>
+                                        </form>
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>
@@ -62,6 +75,12 @@
                         <form action="{{ route('pelanggan.pesanan.proses') }}" method="POST" style="margin-top:18px;">
                             @csrf
                             <button class="btn full" type="submit">Proses Pesanan</button>
+                        </form>
+
+                        <form action="{{ route('pelanggan.cart.clear') }}" method="POST" style="margin-top:10px;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn secondary full" type="submit">Kosongkan Keranjang</button>
                         </form>
                     @endif
                 </aside>

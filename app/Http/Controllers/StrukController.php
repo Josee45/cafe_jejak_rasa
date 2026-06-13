@@ -12,10 +12,9 @@ class StrukController extends Controller
     public function show($id)
     {
         $pesanan = Pesanan::with(['pelanggan', 'items.menu'])->findOrFail($id);
-
-        // jika ingin pembatasan pelanggan, uncomment:
-        // $pelanggan = Auth::guard('pelanggan')->user();
-        // abort_unless($pesanan->pelanggan_id === $pelanggan->id, 403);
+        if ($redirect = $this->receiptAccessRedirect($pesanan)) {
+            return $redirect;
+        }
 
         return view('struk', compact('pesanan'));
     }
@@ -32,24 +31,32 @@ class StrukController extends Controller
                 ->with('success', 'Pesanan ini sudah dibayar.');
         }
 
+        if ($pesanan->status_pembayaran === 'menunggu_konfirmasi') {
+            return redirect()->route('struk.show', $pesanan->id)
+                ->with('success', 'Konfirmasi pembayaran kamu sedang menunggu pemeriksaan admin.');
+        }
+
         $data = $request->validate([
             'metode_pembayaran' => ['required', 'in:tunai,qris,transfer,ewallet'],
         ]);
 
         $pesanan->update([
-            'status_pembayaran' => 'lunas',
+            'status_pembayaran' => 'menunggu_konfirmasi',
             'metode_pembayaran' => $data['metode_pembayaran'],
-            'dibayar_pada' => now(),
-            'status' => 'diproses',
+            'dibayar_pada' => null,
         ]);
 
         return redirect()->route('struk.show', $pesanan->id)
-            ->with('success', 'Pembayaran berhasil. Pesanan kamu sedang diproses.');
+            ->with('success', 'Konfirmasi pembayaran dikirim. Admin akan memeriksa pesanan kamu.');
     }
 
     public function pdf($id)
     {
         $pesanan = Pesanan::with(['pelanggan', 'items.menu'])->findOrFail($id);
+        if ($redirect = $this->receiptAccessRedirect($pesanan)) {
+            return $redirect;
+        }
+
         $pdf = $this->buildReceiptPdf($pesanan);
 
         return response($pdf, 200, [
@@ -84,11 +91,11 @@ class StrukController extends Controller
         $text(72, 685, 11, 'Pelanggan', true);
         $text(210, 685, 11, $pesanan->pelanggan->name ?? '-');
         $text(72, 665, 11, 'Status', true);
-        $text(210, 665, 11, Str::title($pesanan->status));
+        $text(210, 665, 11, $pesanan->status_label);
         $text(72, 645, 11, 'Pembayaran', true);
-        $text(210, 645, 11, $pesanan->status_pembayaran === 'lunas' ? 'Lunas' : 'Belum Bayar');
+        $text(210, 645, 11, $pesanan->payment_status_label);
         $text(72, 625, 11, 'Metode', true);
-        $text(210, 625, 11, $pesanan->metode_pembayaran ? strtoupper($pesanan->metode_pembayaran) : '-');
+        $text(210, 625, 11, $pesanan->payment_method_label);
 
         $line(72, 600, 523, 600);
         $text(72, 580, 11, 'Menu', true);
@@ -163,5 +170,22 @@ class StrukController extends Controller
 
         return $pdf;
     }
-}
 
+    private function receiptAccessRedirect(Pesanan $pesanan)
+    {
+        if (Auth::guard('web')->check()) {
+            return null;
+        }
+
+        $pelanggan = Auth::guard('pelanggan')->user();
+
+        if (! $pelanggan) {
+            return redirect()->route('pelanggan.login')
+                ->withErrors(['Silakan login untuk melihat struk pesanan.']);
+        }
+
+        abort_unless((int) $pesanan->pelanggan_id === (int) $pelanggan->id, 403);
+
+        return null;
+    }
+}

@@ -23,17 +23,15 @@
                 </div>
                 <div class="meta-box">
                     <div class="muted">Status</div>
-                    <span class="badge ok">{{ ucfirst($pesanan->status) }}</span>
+                    <span class="badge {{ $pesanan->status_badge_class }}">{{ $pesanan->status_label }}</span>
                 </div>
                 <div class="meta-box">
                     <div class="muted">Pembayaran</div>
-                    <span class="badge {{ $pesanan->status_pembayaran === 'lunas' ? 'ok' : 'warn' }}">
-                        {{ $pesanan->status_pembayaran === 'lunas' ? 'Lunas' : 'Belum Bayar' }}
-                    </span>
+                    <span class="badge {{ $pesanan->payment_badge_class }}">{{ $pesanan->payment_status_label }}</span>
                 </div>
                 <div class="meta-box">
                     <div class="muted">Metode</div>
-                    <strong>{{ $pesanan->metode_pembayaran ? strtoupper($pesanan->metode_pembayaran) : '-' }}</strong>
+                    <strong>{{ $pesanan->payment_method_label }}</strong>
                 </div>
             </div>
 
@@ -72,13 +70,20 @@
                             <p class="eyebrow">Pembayaran</p>
                             <h3>Pembayaran berhasil</h3>
                             <p class="muted">
-                                Dibayar dengan {{ strtoupper($pesanan->metode_pembayaran) }}
+                                Dibayar dengan {{ $pesanan->payment_method_label }}
                                 pada {{ $pesanan->dibayar_pada?->format('d M Y H:i') }}.
+                            </p>
+                        @elseif($pesanan->status_pembayaran === 'menunggu_konfirmasi')
+                            <p class="eyebrow">Pembayaran</p>
+                            <h3>Menunggu konfirmasi admin</h3>
+                            <p class="muted">
+                                Metode pembayaran {{ $pesanan->payment_method_label }} sudah dikirim.
+                                Admin akan menandai lunas setelah pembayaran diterima.
                             </p>
                         @else
                             <p class="eyebrow">Pembayaran</p>
-                            <h3>Bayar pesanan kamu</h3>
-                            <p class="muted">Pilih metode pembayaran untuk menyelesaikan pesanan.</p>
+                            <h3>Konfirmasi pembayaran</h3>
+                            <p class="muted">Pilih metode pembayaran yang akan kamu gunakan. Admin akan memeriksa sebelum pesanan ditandai lunas.</p>
 
                             <form action="{{ route('struk.bayar', $pesanan->id) }}" method="POST" class="payment-form">
                                 @csrf
@@ -95,7 +100,7 @@
                                     <input type="radio" name="metode_pembayaran" value="qris" required>
                                     <span>
                                         <strong>QRIS</strong>
-                                        <small>Simulasi pembayaran QR cafe.</small>
+                                        <small>Konfirmasi pembayaran QR cafe.</small>
                                     </span>
                                 </label>
 
@@ -115,7 +120,7 @@
                                     </span>
                                 </label>
 
-                                <button class="btn full" type="submit">Bayar Sekarang</button>
+                                <button class="btn full" type="submit">Kirim Konfirmasi</button>
                             </form>
                         @endif
                     </section>
