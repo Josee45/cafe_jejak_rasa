@@ -56,6 +56,7 @@
             </div>
 
             <div class="actions" style="margin-top:22px;">
+                <a class="btn" href="{{ route('struk.pdf', $pesanan->id) }}">Download PDF</a>
                 <a class="btn" href="{{ route('menu.index') }}">Kembali ke Menu</a>
                 @auth('web')
                     <a class="btn secondary" href="{{ route('data.pesanan') }}">Data Pesanan</a>

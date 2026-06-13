@@ -84,6 +84,9 @@ Route::middleware('auth:pelanggan')->group(function () {
 Route::get('/struk/{id}', [StrukController::class, 'show'])
     ->name('struk.show');
 
+Route::get('/struk/{id}/pdf', [StrukController::class, 'pdf'])
+    ->name('struk.pdf');
+
 /*
 |--------------------------------------------------------------------------
 | Login Admin
