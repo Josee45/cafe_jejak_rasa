@@ -428,6 +428,29 @@
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
         }
 
+        .dashboard-grid {
+            align-items: stretch;
+        }
+
+        .dashboard-card {
+            min-height: 304px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-card h3 {
+            min-height: 24px;
+        }
+
+        .dashboard-card .muted {
+            margin: 22px 0 0;
+        }
+
+        .dashboard-action {
+            align-self: flex-start;
+            margin-top: auto;
+        }
+
         .menu-card,
         .panel {
             border: 1px solid var(--line);
