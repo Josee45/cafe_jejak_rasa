@@ -8,10 +8,14 @@
         <div class="nav-links">
             <div class="nav-menu">
                 <a class="nav-link" href="{{ route('home') }}">Home</a>
-                <a class="nav-link" href="{{ route('menu.index') }}">Menu</a>
+
+                @auth('pelanggan')
+                    <a class="nav-link" href="{{ route('menu.index') }}">Menu</a>
+                @endauth
 
                 @auth('web')
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ route('data.menu') }}">Data Menu</a>
                     <a class="nav-link" href="{{ route('data.pelanggan') }}">Pelanggan</a>
                 @endauth
             </div>

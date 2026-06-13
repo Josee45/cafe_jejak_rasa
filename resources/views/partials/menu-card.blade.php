@@ -7,7 +7,7 @@
         <h3>{{ $menu->nama_menu }}</h3>
         <p class="price">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
 
-        @isset($orderable)
+        @if(! empty($orderable))
             <form action="{{ route('pelanggan.cart.add') }}" method="POST">
                 @csrf
                 <input type="hidden" name="menu_id" value="{{ $menu->id }}">
@@ -16,9 +16,9 @@
                     <button class="btn" type="submit">Tambah</button>
                 </div>
             </form>
-        @endisset
+        @endif
 
-        @isset($manageable)
+        @if(! empty($manageable))
             <div class="actions" style="margin-top:14px;">
                 <a href="{{ route('menu.edit', $menu->id) }}" class="btn secondary">Edit</a>
                 <form action="{{ route('menu.destroy', $menu->id) }}" method="POST">
@@ -27,6 +27,6 @@
                     <button type="submit" class="btn danger" onclick="return confirm('Yakin ingin menghapus menu ini?')">Hapus</button>
                 </form>
             </div>
-        @endisset
+        @endif
     </div>
 </article>

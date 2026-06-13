@@ -17,12 +17,40 @@
                     </div>
                 </div>
 
-                <div class="splash-menu-preview">
-                    <img src="{{ asset('images/menu/caramel_machiatto.png') }}" alt="Caramel macchiato">
-                    <div>
-                        <span>Rekomendasi hari ini</span>
-                        <strong>Caramel Macchiato</strong>
-                        <small>Minuman manis lembut untuk menemani waktu santai.</small>
+                <div class="splash-visual">
+                    <article class="splash-feature-card">
+                        <img src="{{ asset('images/menu/caramel_machiatto.png') }}" alt="Caramel macchiato">
+                        <div>
+                            <span>Rekomendasi hari ini</span>
+                            <strong>Caramel Macchiato</strong>
+                            <small>Minuman manis lembut untuk menemani waktu santai.</small>
+                        </div>
+                    </article>
+
+                    <div class="splash-stack">
+                        <article class="splash-mini-card">
+                            <img src="{{ asset('images/menu/croissant.png') }}" alt="Croissant">
+                            <div>
+                                <strong>Croissant</strong>
+                                <small>Fresh pastry</small>
+                            </div>
+                        </article>
+
+                        <article class="splash-mini-card">
+                            <img src="{{ asset('images/menu/matcha_latte.png') }}" alt="Matcha latte">
+                            <div>
+                                <strong>Matcha Latte</strong>
+                                <small>Non coffee</small>
+                            </div>
+                        </article>
+
+                        <article class="splash-mini-card">
+                            <img src="{{ asset('images/menu/burger.png') }}" alt="Burger">
+                            <div>
+                                <strong>Burger</strong>
+                                <small>Cemilan favorit</small>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </section>

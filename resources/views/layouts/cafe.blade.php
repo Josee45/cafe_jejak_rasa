@@ -194,6 +194,9 @@
             display: grid;
             align-items: center;
             padding: 34px 0;
+            background:
+                linear-gradient(180deg, rgba(255, 253, 249, .82), rgba(239, 247, 245, .92)),
+                var(--bg);
         }
 
         .splash-hero {
@@ -204,14 +207,7 @@
             grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
             align-items: center;
             gap: 36px;
-            border: 1px solid rgba(232, 221, 208, .86);
-            border-radius: 8px;
-            padding: clamp(28px, 5vw, 58px);
-            background:
-                linear-gradient(135deg, rgba(255, 253, 249, .96), rgba(236, 249, 246, .9)),
-                linear-gradient(135deg, #fffdf9, #e0f2fe);
-            box-shadow: var(--shadow);
-            overflow: hidden;
+            padding: clamp(18px, 4vw, 34px) 0;
         }
 
         .splash-copy h1 {
@@ -232,22 +228,35 @@
             margin-top: 28px;
         }
 
-        .splash-menu-preview {
+        .splash-visual {
+            min-height: 500px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 168px;
+            gap: 14px;
+        }
+
+        .splash-feature-card,
+        .splash-mini-card {
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .splash-feature-card {
             align-self: stretch;
-            min-height: 440px;
             display: grid;
             align-content: end;
-            border-radius: 8px;
             padding: 18px;
             color: #fff;
             background:
                 linear-gradient(180deg, rgba(20, 16, 12, .04), rgba(20, 16, 12, .78)),
                 #2a211b;
             position: relative;
-            overflow: hidden;
         }
 
-        .splash-menu-preview img {
+        .splash-feature-card img {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -256,14 +265,14 @@
             z-index: 0;
         }
 
-        .splash-menu-preview div {
+        .splash-feature-card div {
             position: relative;
             z-index: 1;
             display: grid;
             gap: 8px;
         }
 
-        .splash-menu-preview span {
+        .splash-feature-card span {
             color: #bae6fd;
             font-size: 12px;
             font-weight: 900;
@@ -271,15 +280,51 @@
             letter-spacing: .08em;
         }
 
-        .splash-menu-preview strong {
+        .splash-feature-card strong {
             font-size: 28px;
         }
 
-        .splash-menu-preview small {
+        .splash-feature-card small {
             max-width: 320px;
             color: rgba(255, 255, 255, .84);
             font-size: 14px;
             line-height: 1.6;
+        }
+
+        .splash-stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .splash-mini-card {
+            min-height: 0;
+            display: grid;
+            grid-template-rows: minmax(110px, 1fr) auto;
+        }
+
+        .splash-mini-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 110px;
+            object-fit: cover;
+            background: var(--surface-2);
+        }
+
+        .splash-mini-card div {
+            display: grid;
+            gap: 3px;
+            padding: 10px;
+        }
+
+        .splash-mini-card strong {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .splash-mini-card small {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .hero {
@@ -915,9 +960,17 @@
                 grid-template-columns: 1fr;
             }
 
-            .splash-menu-preview,
+            .splash-visual,
             .auth-intro {
                 min-height: 340px;
+            }
+
+            .splash-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .splash-stack {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
             .cart-layout {
@@ -960,8 +1013,26 @@
                 padding: 24px;
             }
 
-            .splash-menu-preview {
-                min-height: 280px;
+            .splash-visual {
+                min-height: auto;
+            }
+
+            .splash-feature-card {
+                min-height: 320px;
+            }
+
+            .splash-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .splash-mini-card {
+                grid-template-columns: 112px 1fr;
+                grid-template-rows: auto;
+                min-height: 104px;
+            }
+
+            .splash-mini-card img {
+                min-height: 104px;
             }
 
             .auth-page {

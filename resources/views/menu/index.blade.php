@@ -11,9 +11,6 @@
                     <h2>Menu Cafe Jejak Rasa</h2>
                     <p>Pilih kategori untuk menemukan minuman atau camilan yang sedang kamu cari.</p>
                 </div>
-                @auth('web')
-                    <a href="{{ route('menu.create') }}" class="btn">Tambah Menu</a>
-                @endauth
             </div>
 
             @include('partials.alerts')
@@ -31,10 +28,7 @@
 
             <div class="grid menu-grid">
                 @forelse($menus as $menu)
-                    @include('partials.menu-card', [
-                        'menu' => $menu,
-                        'manageable' => auth('web')->check(),
-                    ])
+                    @include('partials.menu-card', ['menu' => $menu])
                 @empty
                     <div class="empty">Belum ada data menu.</div>
                 @endforelse
