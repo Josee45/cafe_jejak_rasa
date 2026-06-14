@@ -91,14 +91,20 @@ class Menu extends Model
 
     public function getImageUrlAttribute(): string
     {
+        $fallback = asset('images/1779141246.png');
+
         if (! $this->gambar) {
-            return asset('images/1779141246.png');
+            return $fallback;
         }
 
         if (file_exists(public_path('images/menu/' . $this->gambar))) {
             return asset('images/menu/' . $this->gambar);
         }
 
-        return asset('images/' . $this->gambar);
+        if (file_exists(public_path('images/' . $this->gambar))) {
+            return asset('images/' . $this->gambar);
+        }
+
+        return $fallback;
     }
 }
